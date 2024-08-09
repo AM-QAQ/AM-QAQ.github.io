@@ -82,7 +82,53 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <li>实现水平翻转应定义为外部的单独方法，以避免在主循环中多次调用翻转函数产生不必要的性能消耗。</li>
 </ol>
 <h3>附源码</h3>
-<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-c"><span class="pl-c">//</span>Util.h</span>
+<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-c"><span class="pl-c">//</span>Atlas.h</span>
+<span class="pl-k">class</span> <span class="pl-en">Atlas</span>
+{
+<span class="pl-k">public:</span>
+	<span class="pl-en">Atlas</span>() = <span class="pl-k">default</span>;
+	<span class="pl-en">~Atlas</span>() = <span class="pl-k">default</span>;
+
+	<span class="pl-k">void</span> <span class="pl-en">load_from_file</span>(LPCTSTR path_template, <span class="pl-k">int</span> num)
+	{
+		img_list.<span class="pl-c1">clear</span>();		<span class="pl-c"><span class="pl-c">//</span>为img_list重新分配大小，避免多次调用中出现大小不匹配的情况</span>
+		img_list.<span class="pl-c1">resize</span>(num);
+
+		TCHAR path_file[<span class="pl-c1">256</span>];
+		<span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">0</span>; i &lt; num; ++i)
+		{
+			<span class="pl-c1">_stprintf_s</span>(path_file, path_template, i + <span class="pl-c1">1</span>);
+			<span class="pl-c1">loadimage</span>(&amp;img_list[i], path_file);
+		}
+	}
+
+	<span class="pl-k">void</span> <span class="pl-en">clear</span>()	<span class="pl-c"><span class="pl-c">//</span>清空图片集中已加载的图片对象</span>
+	{
+		img_list.<span class="pl-c1">clear</span>();
+	}
+
+	<span class="pl-k">int</span> <span class="pl-en">get_size</span>()
+	{
+		<span class="pl-k">return</span> (<span class="pl-k">int</span>)img_list.<span class="pl-c1">size</span>();
+	}
+
+	IMAGE* <span class="pl-en">get_image</span>(<span class="pl-k">int</span> idx)
+	{
+		<span class="pl-k">if</span> (idx &lt; <span class="pl-c1">0</span> || idx &gt;= img_list.<span class="pl-c1">size</span>())
+			<span class="pl-k">return</span> <span class="pl-c1">nullptr</span>;
+		<span class="pl-k">return</span> &amp;img_list[idx];
+	}
+
+	<span class="pl-k">void</span> <span class="pl-en">add_image</span>(<span class="pl-k">const</span> IMAGE&amp; img)
+	{
+		img_list.<span class="pl-c1">push_back</span>(img);
+	}
+
+<span class="pl-k">private:</span>
+	vector&lt;IMAGE&gt; img_list;
+};
+
+<span class="pl-c"><span class="pl-c">//</span>Util.h</span>
 <span class="pl-k">inline</span> <span class="pl-k">void</span> <span class="pl-en">Flip_Image</span>(IMAGE* src, IMAGE* dst)
 {
 	<span class="pl-k">int</span> width = src-&gt;<span class="pl-c1">getwidth</span>();
