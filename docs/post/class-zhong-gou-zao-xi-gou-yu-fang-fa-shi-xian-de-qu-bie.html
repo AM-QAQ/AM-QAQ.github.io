@@ -83,7 +83,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <p>不同的class之间可能存在相互引用的关系，首先重新构造class可能导致其他变量未实现重置，其次多次重新构造class可能导致其与其他class的生命周期不同，以上问题无疑<strong>提高了内存管理的要求</strong>。</p>
 <h2>方法实现</h2>
 <p>将所需的功能定义为方法后可以通过对应的方法重置内容实现多次调用，使class的生命周期与主函数相同，这样便省去了多次创建释放的麻烦</p>
-<p>##附代码</p>
+<h2>附代码</h2>
 <div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">class</span> <span class="pl-en">Atlas</span>
 {
 <span class="pl-k">public:</span>
