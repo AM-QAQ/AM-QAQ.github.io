@@ -11,10 +11,12 @@
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
 <meta name="description" content="## 主要问题
-        1.当消息变量接收消息时，可能会出现消息堆积的情况，此时若在处理消息的时候直接为角色坐标赋值，可能导致角色移动不连贯、移动距离难难把控等问题。">
+
+1. 当消息变量接收消息时，可能会出现消息堆积的情况，此时若在处理消息的时候直接为角色坐标赋值，可能导致角色移动不连贯、移动距离难难把控等问题。">
 <meta property="og:title" content="角色移动处理">
 <meta property="og:description" content="## 主要问题
-        1.当消息变量接收消息时，可能会出现消息堆积的情况，此时若在处理消息的时候直接为角色坐标赋值，可能导致角色移动不连贯、移动距离难难把控等问题。">
+
+1. 当消息变量接收消息时，可能会出现消息堆积的情况，此时若在处理消息的时候直接为角色坐标赋值，可能导致角色移动不连贯、移动距离难难把控等问题。">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://AM-QAQ.github.io/post/jiao-se-yi-dong-chu-li.html">
 <meta property="og:image" content="https://avatars.githubusercontent.com/u/147171917?v=4">
@@ -86,13 +88,23 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
     <div id="content">
 <div class="markdown-body" id="postBody"><h2>主要问题</h2>
-<pre class="notranslate"><code class="notranslate">    1.当消息变量接收消息时，可能会出现消息堆积的情况，此时若在处理消息的时候直接为角色坐标赋值，可能导致角色移动不连贯、移动距离难难把控等问题。
-    2.当平面角色向斜角移动时可能会导致同时增加了两个方向的值，会使角色移动速度相对较快。
-</code></pre>
+<ol>
+<li>
+<p>当消息变量接收消息时，可能会出现消息堆积的情况，此时若在处理消息的时候直接为角色坐标赋值，可能导致角色移动不连贯、移动距离难难把控等问题。</p>
+</li>
+<li>
+<p>当平面角色向斜角移动时可能会导致同时增加了两个方向的值，会使角色移动速度相对较快。</p>
+</li>
+</ol>
 <h2>解决方案</h2>
-<pre class="notranslate"><code class="notranslate">    1.首先添加bool变量标记角色对应方向是否需要移动，在处理角色移动消息时，改变对应的bool变量，随后根据bool变量决定玩家是否移动。
-    2.将角色的移动距离固定为 **单位向量*Speed**
-</code></pre>
+<ol>
+<li>
+<p>首先添加bool变量标记角色对应方向是否需要移动，在处理角色移动消息时，改变对应的bool变量，随后根据bool变量决定玩家是否移动。</p>
+</li>
+<li>
+<p>将角色的移动距离固定为 <strong>单位向量*Speed</strong></p>
+</li>
+</ol>
 <h2>附源码</h2>
 <div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">class</span> <span class="pl-en">Figure</span>
 {
