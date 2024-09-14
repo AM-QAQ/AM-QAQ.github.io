@@ -95,48 +95,48 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <h2>方法实现</h2>
 <p>将所需的功能定义为方法后可以通过对应的方法重置内容实现多次调用，使class的生命周期与主函数相同，这样便省去了多次创建释放的麻烦</p>
 <h2>附代码</h2>
-<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">class</span> <span class="pl-en">Atlas</span>
+<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">class</span> Atlas
 {
-<span class="pl-k">public:</span>
-	<span class="pl-en">Atlas</span>() = <span class="pl-k">default</span>;
-	<span class="pl-en">~Atlas</span>() = <span class="pl-k">default</span>;
+<span class="pl-k">public</span>:
+	Atlas() = default;
+	~Atlas() = default;
 
-	<span class="pl-k">void</span> <span class="pl-en">load_from_file</span>(LPCTSTR path_template, <span class="pl-k">int</span> num)
+	void <span class="pl-en">load_from_file</span>(LPCTSTR path_template, int num)
 	{
-		img_list.<span class="pl-c1">clear</span>();		<span class="pl-c"><span class="pl-c">//</span>为img_list重新分配大小，避免多次调用中出现大小不匹配的情况</span>
-		img_list.<span class="pl-c1">resize</span>(num);
+		img_list.clear();		//为img_list重新分配大小，避免多次调用中出现大小不匹配的情况
+		img_list.resize(num);
 
-		TCHAR path_file[<span class="pl-c1">256</span>];
-		<span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">0</span>; i &lt; num; ++i)
+		TCHAR path_file[256];
+		for (int i = 0; i &lt; num; ++i)
 		{
-			<span class="pl-c1">_stprintf_s</span>(path_file, path_template, i + <span class="pl-c1">1</span>);
-			<span class="pl-c1">loadimage</span>(&amp;img_list[i], path_file);
+			_stprintf_s(path_file, path_template, i + 1);
+			loadimage(&amp;img_list[i], path_file);
 		}
 	}
 
-	<span class="pl-k">void</span> <span class="pl-en">clear</span>()	<span class="pl-c"><span class="pl-c">//</span>清空图片集中已加载的图片对象</span>
+	void <span class="pl-en">clear</span>()	//清空图片集中已加载的图片对象
 	{
-		img_list.<span class="pl-c1">clear</span>();
+		img_list.clear();
 	}
 
-	<span class="pl-k">int</span> <span class="pl-en">get_size</span>()
+	int <span class="pl-en">get_size</span>()
 	{
-		<span class="pl-k">return</span> (<span class="pl-k">int</span>)img_list.<span class="pl-c1">size</span>();
+		return (int)img_list.size();
 	}
 
-	IMAGE* <span class="pl-en">get_image</span>(<span class="pl-k">int</span> idx)
+	IMAGE* <span class="pl-en">get_image</span>(int idx)
 	{
-		<span class="pl-k">if</span> (idx &lt; <span class="pl-c1">0</span> || idx &gt;= img_list.<span class="pl-c1">size</span>())
-			<span class="pl-k">return</span> <span class="pl-c1">nullptr</span>;
-		<span class="pl-k">return</span> &amp;img_list[idx];
+		if (idx &lt; 0 || idx &gt;= img_list.size())
+			return <span class="pl-c1">nullptr</span>;
+		return &amp;img_list[idx];
 	}
 
-	<span class="pl-k">void</span> <span class="pl-en">add_image</span>(<span class="pl-k">const</span> IMAGE&amp; img)
+	void <span class="pl-en">add_image</span>(const IMAGE&amp; img)
 	{
-		img_list.<span class="pl-c1">push_back</span>(img);
+		img_list.push_back(img);
 	}
 
-<span class="pl-k">private:</span>
+<span class="pl-k">private</span>:
 	vector&lt;IMAGE&gt; img_list;
 };</pre></div></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>

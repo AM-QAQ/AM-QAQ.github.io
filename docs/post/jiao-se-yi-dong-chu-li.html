@@ -106,128 +106,127 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </li>
 </ol>
 <h2>附源码</h2>
-<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">class</span> <span class="pl-en">Figure</span>
+<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">class</span> Figure
 {
-<span class="pl-k">public:</span>
-	<span class="pl-k">const</span> <span class="pl-k">int</span> FIGURE_SPEED = <span class="pl-c1">5</span>;						<span class="pl-c"><span class="pl-c">//</span>角色移动速度	</span>
-	<span class="pl-k">const</span> <span class="pl-k">int</span> FIGURE_WIDTH = <span class="pl-c1">80</span>;					<span class="pl-c"><span class="pl-c">//</span>角色的宽</span>
-	<span class="pl-k">const</span> <span class="pl-k">int</span> FIGURE_HEIGHT = <span class="pl-c1">80</span>;					<span class="pl-c"><span class="pl-c">//</span>角色的高</span>
-	<span class="pl-k">const</span> <span class="pl-k">int</span> SHADOWS_WIDTH = <span class="pl-c1">32</span>;
+<span class="pl-k">public</span>:
+	const int FIGURE_SPEED = 5;						//角色移动速度	
+	const int FIGURE_WIDTH = 80;					//角色的宽
+	const int FIGURE_HEIGHT = 80;					//角色的高
+	const int SHADOWS_WIDTH = 32;
 
-<span class="pl-k">public:</span>
-	<span class="pl-en">Figure</span>() 
+<span class="pl-k">public</span>:
+	Figure() 
 	{
-		anim = <span class="pl-k">new</span> <span class="pl-c1">Animation</span>(figure_gallery, <span class="pl-c1">45</span>);		<span class="pl-c"><span class="pl-c">//</span>设置图片位置、图片数、图片播放速度</span>
+		anim = <span class="pl-k">new</span> Animation(figure_gallery, 45);		//设置图片位置、图片数、图片播放速度
 	}
 
-	<span class="pl-en">~Figure</span>() 
+	~Figure() 
 	{
 		<span class="pl-k">delete</span> anim;
 	}
 
-	<span class="pl-k">void</span> <span class="pl-en">ProcessEvent</span>(<span class="pl-k">const</span> ExMessage&amp; msg)
+	void <span class="pl-en">ProcessEvent</span>(const ExMessage&amp; msg)
 	{
-		<span class="pl-k">if</span> (msg.<span class="pl-smi">message</span> == WM_KEYDOWN)		<span class="pl-c"><span class="pl-c">//</span>按下按键时，将对应移动方向设置为true</span>
+		if (msg.message == WM_KEYDOWN)		//按下按键时，将对应移动方向设置为true
 		{
-			<span class="pl-k">switch</span> (msg.<span class="pl-smi">vkcode</span>)
+			switch (msg.vkcode)
 			{
-			<span class="pl-k">case</span> <span class="pl-s"><span class="pl-pds">'</span>W<span class="pl-pds">'</span></span>:
-				move_up = <span class="pl-c1">true</span>;
-				<span class="pl-k">break</span>;
-			<span class="pl-k">case</span> <span class="pl-s"><span class="pl-pds">'</span>A<span class="pl-pds">'</span></span>:
-				move_left = <span class="pl-c1">true</span>;
-				<span class="pl-k">break</span>;
-			<span class="pl-k">case</span> <span class="pl-s"><span class="pl-pds">'</span>S<span class="pl-pds">'</span></span>:
-				move_down = <span class="pl-c1">true</span>;
-				<span class="pl-k">break</span>;
-			<span class="pl-k">case</span> <span class="pl-s"><span class="pl-pds">'</span>D<span class="pl-pds">'</span></span>:
-				move_right = <span class="pl-c1">true</span>;
-				<span class="pl-k">break</span>;
+			case 'W':
+				move_up = true;
+				break;
+			case 'A':
+				move_left = true;
+				break;
+			case 'S':
+				move_down = true;
+				break;
+			case 'D':
+				move_right = true;
+				break;
 			}
 		}
-		<span class="pl-k">else</span> <span class="pl-k">if</span> (msg.<span class="pl-smi">message</span> == WM_KEYUP)	<span class="pl-c"><span class="pl-c">//</span>松开按键时……</span>
+		else if (msg.message == WM_KEYUP)	//松开按键时……
 		{
-			<span class="pl-k">switch</span> (msg.<span class="pl-smi">vkcode</span>)
+			switch (msg.vkcode)
 			{
-			<span class="pl-k">case</span> <span class="pl-s"><span class="pl-pds">'</span>W<span class="pl-pds">'</span></span>:
-				move_up = <span class="pl-c1">false</span>;
-				<span class="pl-k">break</span>;
-			<span class="pl-k">case</span> <span class="pl-s"><span class="pl-pds">'</span>A<span class="pl-pds">'</span></span>:
-				move_left = <span class="pl-c1">false</span>;
-				<span class="pl-k">break</span>;
-			<span class="pl-k">case</span> <span class="pl-s"><span class="pl-pds">'</span>S<span class="pl-pds">'</span></span>:
-				move_down = <span class="pl-c1">false</span>;
-				<span class="pl-k">break</span>;
-			<span class="pl-k">case</span> <span class="pl-s"><span class="pl-pds">'</span>D<span class="pl-pds">'</span></span>:
-				move_right = <span class="pl-c1">false</span>;
-				<span class="pl-k">break</span>;
+			case 'W':
+				move_up = false;
+				break;
+			case 'A':
+				move_left = false;
+				break;
+			case 'S':
+				move_down = false;
+				break;
+			case 'D':
+				move_right = false;
+				break;
 			}
 		}
 	}
 
-	<span class="pl-k">void</span> <span class="pl-en">Move</span>()
+	void <span class="pl-en">Move</span>()
 	{
-		<span class="pl-k">if</span>(Move_Checks)
+		if(Move_Checks)
 		{
-			<span class="pl-k">int</span> chack_x = move_right - move_left;						  <span class="pl-c"><span class="pl-c">//</span>使角色以单位向量移动</span>
-			<span class="pl-k">int</span> chack_y = move_down - move_up;
+			int chack_x = move_right - move_left;						  //使角色以单位向量移动
+			int chack_y = move_down - move_up;
 
-			<span class="pl-k">double</span> move_gap = <span class="pl-c1">sqrt</span>(chack_x * chack_x + chack_y * chack_y);
+			double move_gap = sqrt(chack_x * chack_x + chack_y * chack_y);
 
-			<span class="pl-k">if</span> (move_gap != <span class="pl-c1">0</span>)
+			if (move_gap != 0)
 			{
-				<span class="pl-k">double</span> x_gap = chack_x / move_gap;
-				<span class="pl-k">double</span> y_gap = chack_y / move_gap;
+				double x_gap = chack_x / move_gap;
+				double y_gap = chack_y / move_gap;
 
-				figure_loca.<span class="pl-smi">first</span> += <span class="pl-c1">int</span>(x_gap * FIGURE_SPEED);
-				figure_loca.<span class="pl-smi">second</span> += <span class="pl-c1">int</span>(y_gap * FIGURE_SPEED);
+				figure_loca.first += int(x_gap * FIGURE_SPEED);
+				figure_loca.second += int(y_gap * FIGURE_SPEED);
 			}
 
-			<span class="pl-k">if</span> (figure_loca.<span class="pl-smi">first</span> &lt; <span class="pl-c1">0</span>)figure_loca.<span class="pl-smi">first</span> = <span class="pl-c1">0</span>;			<span class="pl-c"><span class="pl-c">//</span>使角色位于地图内</span>
-			<span class="pl-k">if</span> (figure_loca.<span class="pl-smi">first</span> &gt; <span class="pl-c1">1280</span> - FIGURE_WIDTH)figure_loca.<span class="pl-smi">first</span> = <span class="pl-c1">1280</span> - FIGURE_WIDTH;
-			<span class="pl-k">if</span> (figure_loca.<span class="pl-smi">second</span> &lt; <span class="pl-c1">0</span>)figure_loca.<span class="pl-smi">second</span> = <span class="pl-c1">0</span>;
-			<span class="pl-k">if</span> (figure_loca.<span class="pl-smi">second</span> &gt; <span class="pl-c1">720</span> - FIGURE_HEIGHT)figure_loca.<span class="pl-smi">second</span> = <span class="pl-c1">720</span> - FIGURE_HEIGHT;
+			if (figure_loca.<span class="pl-en">first</span> &lt; 0)figure_loca.first = 0;			//使角色位于地图内
+			if (figure_loca.first &gt; 1280 - FIGURE_WIDTH)figure_loca.first = 1280 - FIGURE_WIDTH;
+			if (figure_loca.<span class="pl-en">second</span> &lt; 0)figure_loca.second = 0;
+			if (figure_loca.second &gt; 720 - FIGURE_HEIGHT)figure_loca.second = 720 - FIGURE_HEIGHT;
 		}
 	}
 
-	<span class="pl-k">void</span> <span class="pl-en">Draw</span>(<span class="pl-k">const</span> <span class="pl-k">int</span>&amp; time_lag, <span class="pl-k">const</span> <span class="pl-k">int</span> n)
+	void <span class="pl-en">Draw</span>(const int&amp; time_lag, const int n)
 	{
-		<span class="pl-c1">loadimage</span>(&amp;<span class="pl-c1">shadow</span>, <span class="pl-c1">_T</span>(<span class="pl-s"><span class="pl-pds">"</span>images/shadow_player.png<span class="pl-pds">"</span></span>));
-		pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt;shadow_loca;				<span class="pl-c"><span class="pl-c">//</span>角色阴影</span>
-		shadow_loca.<span class="pl-smi">first</span> = figure_loca.<span class="pl-smi">first</span> + (FIGURE_WIDTH - SHADOWS_WIDTH) / <span class="pl-c1">2</span>;
-		shadow_loca.<span class="pl-smi">second</span> = figure_loca.<span class="pl-smi">second</span> + FIGURE_HEIGHT - <span class="pl-c1">8</span>;
-		<span class="pl-c1">putimage_alpha</span>(shadow_loca.<span class="pl-smi">first</span>, shadow_loca.<span class="pl-smi">second</span>, &amp;<span class="pl-c1">shadow</span>);
+		loadimage(&amp;shadow, _T("images/shadow_player.png"));
+		pair&lt;int, int&gt;shadow_loca;				//角色阴影
+		shadow_loca.first = figure_loca.first + (FIGURE_WIDTH - SHADOWS_WIDTH) / 2;
+		shadow_loca.second = figure_loca.second + FIGURE_HEIGHT - 8;
+		putimage_alpha(shadow_loca.first, shadow_loca.second, &amp;shadow);
 												
-		<span class="pl-k">int</span> chack_x = move_right - move_left;			
+		int chack_x = move_right - move_left;			
 
-		<span class="pl-k">if</span> (chack_x &lt; <span class="pl-c1">0</span>)
-			left_chack = <span class="pl-c1">true</span>;					<span class="pl-c"><span class="pl-c">//</span>  添加一个静态布尔类型方便保存上一次人物的方向</span>
-		<span class="pl-k">else</span> <span class="pl-k">if</span> (chack_x &gt; <span class="pl-c1">0</span>)
-			left_chack = <span class="pl-c1">false</span>;
+		if (chack_x &lt; 0)
+			left_chack = true;					//  添加一个静态布尔类型方便保存上一次人物的方向
+		else if (chack_x &gt; 0)
+			left_chack = false;
 
-		<span class="pl-k">if</span> (left_chack)							<span class="pl-c"><span class="pl-c">//</span>  播放左/右方向动画</span>
-			anim-&gt;<span class="pl-c1">Play_Left</span>(figure_loca, time_lag, n, <span class="pl-c1">1</span>);
-		<span class="pl-k">else</span>
-			anim-&gt;<span class="pl-c1">Play_Right</span>(figure_loca, time_lag, n, <span class="pl-c1">1</span>);
+		if (left_chack)							//  播放左/右方向动画
+			anim-&gt;Play_Left(figure_loca, time_lag, n, 1);
+		else
+			anim-&gt;Play_Right(figure_loca, time_lag, n, 1);
 	}
 
-	<span class="pl-k">const</span> pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt; <span class="pl-en">GetPair</span>()<span class="pl-k">const</span>
+	const pair&lt;int, int&gt; <span class="pl-en">GetPair</span>()const
 	{
-		<span class="pl-k">return</span> figure_loca;
+		return figure_loca;
 	}
 
-<span class="pl-k">private:</span>
+<span class="pl-k">private</span>:
 	Animation* anim;
-	IMAGE <span class="pl-c1">shadow</span>;
+	IMAGE shadow;
 
-	pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt; figure_loca = {<span class="pl-c1">500</span>,<span class="pl-c1">350</span>};			<span class="pl-c"><span class="pl-c">//</span>角色坐标</span>
-	<span class="pl-k">bool</span> move_up = <span class="pl-c1">false</span>;						<span class="pl-c"><span class="pl-c">//</span>移动方向</span>
-	<span class="pl-k">bool</span> move_down = <span class="pl-c1">false</span>;
-	<span class="pl-k">bool</span> move_left = <span class="pl-c1">false</span>;
-	<span class="pl-k">bool</span> move_right = <span class="pl-c1">false</span>;
-	<span class="pl-k">bool</span> left_chack = <span class="pl-c1">false</span>;						<span class="pl-c"><span class="pl-c">//</span>  判断播放左/右方向动画</span>
+	pair&lt;int, int&gt; figure_loca = {500,350};			//角色坐标
+	bool move_up = false;						//移动方向
+	bool move_down = false;
+	bool move_left = false;
+	bool move_right = false;
+	bool left_chack = false;						//  判断播放左/右方向动画
 };
-
 </pre></div></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 

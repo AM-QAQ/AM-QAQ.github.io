@@ -93,83 +93,83 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <li>实现水平翻转应定义为外部的单独方法，以避免在主循环中多次调用翻转函数产生不必要的性能消耗。</li>
 </ol>
 <h3>附源码</h3>
-<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-c"><span class="pl-c">//</span>Atlas.h</span>
-<span class="pl-k">class</span> <span class="pl-en">Atlas</span>
+<div class="highlight highlight-source-c++"><pre class="notranslate">//Atlas.h
+<span class="pl-k">class</span> Atlas
 {
-<span class="pl-k">public:</span>
-	<span class="pl-en">Atlas</span>() = <span class="pl-k">default</span>;
-	<span class="pl-en">~Atlas</span>() = <span class="pl-k">default</span>;
+<span class="pl-k">public</span>:
+	Atlas() = default;
+	~Atlas() = default;
 
-	<span class="pl-k">void</span> <span class="pl-en">load_from_file</span>(LPCTSTR path_template, <span class="pl-k">int</span> num)
+	void <span class="pl-en">load_from_file</span>(LPCTSTR path_template, int num)
 	{
-		img_list.<span class="pl-c1">clear</span>();		<span class="pl-c"><span class="pl-c">//</span>为img_list重新分配大小，避免多次调用中出现大小不匹配的情况</span>
-		img_list.<span class="pl-c1">resize</span>(num);
+		img_list.clear();		//为img_list重新分配大小，避免多次调用中出现大小不匹配的情况
+		img_list.resize(num);
 
-		TCHAR path_file[<span class="pl-c1">256</span>];
-		<span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">0</span>; i &lt; num; ++i)
+		TCHAR path_file[256];
+		for (int i = 0; i &lt; num; ++i)
 		{
-			<span class="pl-c1">_stprintf_s</span>(path_file, path_template, i + <span class="pl-c1">1</span>);
-			<span class="pl-c1">loadimage</span>(&amp;img_list[i], path_file);
+			_stprintf_s(path_file, path_template, i + 1);
+			loadimage(&amp;img_list[i], path_file);
 		}
 	}
 
-	<span class="pl-k">void</span> <span class="pl-en">clear</span>()	<span class="pl-c"><span class="pl-c">//</span>清空图片集中已加载的图片对象</span>
+	void <span class="pl-en">clear</span>()	//清空图片集中已加载的图片对象
 	{
-		img_list.<span class="pl-c1">clear</span>();
+		img_list.clear();
 	}
 
-	<span class="pl-k">int</span> <span class="pl-en">get_size</span>()
+	int <span class="pl-en">get_size</span>()
 	{
-		<span class="pl-k">return</span> (<span class="pl-k">int</span>)img_list.<span class="pl-c1">size</span>();
+		return (int)img_list.size();
 	}
 
-	IMAGE* <span class="pl-en">get_image</span>(<span class="pl-k">int</span> idx)
+	IMAGE* <span class="pl-en">get_image</span>(int idx)
 	{
-		<span class="pl-k">if</span> (idx &lt; <span class="pl-c1">0</span> || idx &gt;= img_list.<span class="pl-c1">size</span>())
-			<span class="pl-k">return</span> <span class="pl-c1">nullptr</span>;
-		<span class="pl-k">return</span> &amp;img_list[idx];
+		if (idx &lt; 0 || idx &gt;= img_list.size())
+			return <span class="pl-c1">nullptr</span>;
+		return &amp;img_list[idx];
 	}
 
-	<span class="pl-k">void</span> <span class="pl-en">add_image</span>(<span class="pl-k">const</span> IMAGE&amp; img)
+	void <span class="pl-en">add_image</span>(const IMAGE&amp; img)
 	{
-		img_list.<span class="pl-c1">push_back</span>(img);
+		img_list.push_back(img);
 	}
 
-<span class="pl-k">private:</span>
+<span class="pl-k">private</span>:
 	vector&lt;IMAGE&gt; img_list;
 };
 
-<span class="pl-c"><span class="pl-c">//</span>Util.h</span>
-<span class="pl-k">inline</span> <span class="pl-k">void</span> <span class="pl-en">Flip_Image</span>(IMAGE* src, IMAGE* dst)
+//Util.h
+inline void Flip_Image(IMAGE* src, IMAGE* dst)
 {
-	<span class="pl-k">int</span> width = src-&gt;<span class="pl-c1">getwidth</span>();
-	<span class="pl-k">int</span> height = src-&gt;<span class="pl-c1">getheight</span>();
+	int width = src-&gt;getwidth();
+	int height = src-&gt;getheight();
 
-	<span class="pl-c1">Resize</span>(dst, width, height);
+	Resize(dst, width, height);
 
-	DWORD* Buffer_src = <span class="pl-c1">GetImageBuffer</span>(src);
-	DWORD* Buffer_dst = <span class="pl-c1">GetImageBuffer</span>(dst);
+	DWORD* Buffer_src = GetImageBuffer(src);
+	DWORD* Buffer_dst = GetImageBuffer(dst);
 
-	<span class="pl-k">for</span> (<span class="pl-k">int</span> y = <span class="pl-c1">0</span>; y &lt; height; ++y)
+	for (int y = 0; y &lt; height; ++y)
 	{
-		<span class="pl-k">for</span> (<span class="pl-k">int</span> x = <span class="pl-c1">0</span>; x &lt; width; ++x)
+		for (int x = 0; x &lt; width; ++x)
 		{
-			<span class="pl-k">int</span> left_pos = y * width + x;
-			<span class="pl-k">int</span> right_pos = y * width - (width - x - <span class="pl-c1">1</span>);
+			int left_pos = y * width + x;
+			int right_pos = y * width - (width - x - 1);
 			Buffer_dst[left_pos] = Buffer_src[right_pos];
 		}
 	}
 }
 
-<span class="pl-c"><span class="pl-c">//</span>main.cpp</span>
-<span class="pl-k">void</span> <span class="pl-en">Flip_Atlas</span>(Atlas&amp; src, Atlas&amp; dst)
+//main.cpp
+void Flip_Atlas(Atlas&amp; src, Atlas&amp; dst)
 {
-	dst.<span class="pl-c1">clear</span>();
-	<span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">0</span>; i &lt; src.<span class="pl-c1">get_size</span>(); ++i)
+	dst.clear();
+	for (int i = 0; i &lt; src.get_size(); ++i)
 	{
 		IMAGE img_dst;
-		<span class="pl-c1">Flip_Image</span>(src.<span class="pl-c1">get_image</span>(i), &amp;img_dst);
-		dst.<span class="pl-c1">add_image</span>(img_dst);
+		Flip_Image(src.get_image(i), &amp;img_dst);
+		dst.add_image(img_dst);
 	}
 }</pre></div></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
